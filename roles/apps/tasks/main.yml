@@ -1,0 +1,42 @@
+- name: Update apt repositories
+  become: yes
+  apt:
+    update_cache: yes
+
+- name: Update apt packages
+  become: yes
+  apt:
+    upgrade: yes
+
+- name: Install apt packages
+  become: yes
+  apt:
+    pkg: "{{ apt_packages }}"
+
+- name: Install rbenv
+  git:
+    repo: https://github.com/rbenv/rbenv.git
+    dest: ~/.rbenv
+
+- name: Install ruby-build
+  git:
+    repo: https://github.com/rbenv/ruby-build.git
+    dest: ~/.rbenv/plugins/ruby-build
+
+- name: Set Rails env and add rbenv to $PATH
+  blockinfile:
+    path: ~/.bashrc
+    block: |
+      export RAILS_ENV=production
+      export RAILS_MASTER_KEY={{ rails.master_key }}
+      export PATH="$HOME/.rbenv/bin:$PATH"
+      eval "$(rbenv init -)"
+
+- name: Check if Ruby exists
+  stat:
+    path: ~/.rbenv/versions/2.7.2
+  register: rbenv_version_dir
+
+- name: Install Ruby 2.7.2
+  shell: $HOME/.rbenv/bin/rbenv install 2.7.2 && $HOME/.rbenv/bin/rbenv rehash && $HOME/.rbenv/bin/rbenv global 2.7.2
+  when: rbenv_version_dir.stat.exists == false

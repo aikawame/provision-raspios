@@ -1,0 +1,4 @@
+- hosts: raspi
+  roles:
+    - apps
+    - settings

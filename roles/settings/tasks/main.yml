@@ -1,0 +1,24 @@
+- name: Set locale
+  become: yes
+  locale_gen:
+    name: ja_JP.UTF-8
+    state: present
+
+- name: Set timezone
+  become: yes
+  timezone:
+    name: Asia/Tokyo
+
+- name: Create Smarthome API directory
+  become: yes
+  file:
+    path: /var/www/smarthome-api
+    state: directory
+    owner: pi
+
+- name: Create Smarthome API shared directory
+  become: yes
+  file:
+    path: /var/www/smarthome-api/shared
+    state: directory
+    owner: pi
