@@ -22,3 +22,15 @@
     path: /var/www/smarthome-api/shared
     state: directory
     owner: pi
+
+- name: Create Smarthome API shared config directory
+  become: yes
+  file:
+    path: /var/www/smarthome-api/shared/config
+    state: directory
+    owner: pi
+
+- name: Copy Rails secret key
+  template:
+    src: roles/settings/templates/master.key.j2
+    dest: /var/www/smarthome-api/shared/config/master.key

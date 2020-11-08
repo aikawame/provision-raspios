@@ -28,7 +28,6 @@
     path: ~/.bashrc
     block: |
       export RAILS_ENV=production
-      export RAILS_MASTER_KEY={{ rails.master_key }}
       export PATH="$HOME/.rbenv/bin:$PATH"
       eval "$(rbenv init -)"
 
