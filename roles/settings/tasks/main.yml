@@ -34,3 +34,20 @@
   template:
     src: roles/settings/templates/master.key.j2
     dest: /var/www/smarthome-api/shared/config/master.key
+
+- name: Create Smarthome API shared SSL directory
+  become: yes
+  file:
+    path: /var/www/smarthome-api/shared/ssl
+    state: directory
+    owner: pi
+
+- name: Copy SSL server certificate
+  template:
+    src: roles/settings/templates/server.crt.j2
+    dest: /var/www/smarthome-api/shared/ssl/server.crt
+
+- name: Copy SSL secret key
+  template:
+    src: roles/settings/templates/server.key.j2
+    dest: /var/www/smarthome-api/shared/ssl/server.key
