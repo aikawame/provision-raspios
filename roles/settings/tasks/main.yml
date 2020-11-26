@@ -9,6 +9,33 @@
   timezone:
     name: Asia/Tokyo
 
+- name: Create SSH directory
+  file:
+    path: ~/.ssh
+    state: directory
+    mode: 0700
+
+- name: Copy SSH key
+  copy:
+    src: ~/.ssh/id_rsa.pub
+    dest: ~/.ssh/authorized_keys
+    mode: 0600
+
+- name: Configure SSH settings
+  become: yes
+  blockinfile:
+    path: /etc/ssh/sshd_config
+    block: |
+      PermitRootLogin no
+      PubkeyAuthentication yes
+      PasswordAuthentication no
+
+- name: Restart sshd
+  become: yes
+  service:
+    name: sshd
+    state: restarted
+
 - name: Create Smarthome API directory
   become: yes
   file:

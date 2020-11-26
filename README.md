@@ -1,8 +1,13 @@
 # provision-raspios
 
-## インストール
+## 初回コマンド
 
 ```bash
-scp -r ~/src/dotfiles/.ssh raspi:~
 ansible-playbook -i hosts site.yml -k --ask-vault-pass
+```
+
+## 2回目以降のコマンド
+
+```bash
+ansible-playbook -i hosts site.yml --ask-vault-pass
 ```
